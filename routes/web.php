@@ -35,9 +35,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->put('/update/{id}', 'FabricController@update');
         $router->delete('/delete/{id}', 'FabricController@delete');
         $router->get('/show/{id}', 'FabricController@show');
+        $router->get('/select2/machine', 'FabricController@select2Machine');
+        $router->get('/last/data', 'FabricController@lastFabric');
+        $router->get('/detail/{id}', 'FabricController@fabricDetail');
     });
     
     $router->group(['namespace' => 'Machine', 'prefix' => 'machine'], function () use ($router) {
         $router->get('/', 'MachineController@index');
     });
+    $router->group(['namespace' => 'FabricDetail', 'prefix' => 'fabric_detail'], function () use ($router) {
+        $router->get('/{id}', 'FabricDetailController@index');
+        $router->post('/store', 'FabricDetailController@store');
+    });
+    
 });

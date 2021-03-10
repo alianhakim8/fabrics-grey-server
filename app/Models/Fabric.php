@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\Machine;
+use App\Models\FabricDetail;
 
 class Fabric extends Model
 {
@@ -45,6 +46,10 @@ class Fabric extends Model
         return $this->belongsTo(Machine::class);
     }
 
+    public function fabric_detail() {
+        return $this->hasMany(FabricDetail::class);
+    }
+
     // public function getCreatedAtAttribute() {
     //     return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['created_at'])->tz('Asia/Jakarta')->format('d-m-Y');
     // }
@@ -55,7 +60,7 @@ class Fabric extends Model
 
     public function scopeFabricJson($query)
     {
-        return $query->select('*')->get();
+        return $query->select('*')->orderBy('id', 'desc')->get();
     }
 
     public function scopeFabricJsonId($query, $id) {
@@ -90,6 +95,10 @@ class Fabric extends Model
 
     public function getBrandNameAttribute() {
         return $this->brand;
+    }
+
+    public function scopeGetLastFabric($query){
+        return $query->orderBy('id', 'DESC')->first();
     }
     
 }

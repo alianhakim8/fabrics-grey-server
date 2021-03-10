@@ -43,7 +43,8 @@ class AuthController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(compact('user','token'),201);
+        // return response()->json(compact('user','token'),201);
+        return response()->json(['message' => 'success' , 'token' => $token, 'code' => 200], 200);
     
     } catch (Exception $e) {
             if($e instanceof \Illuminate\Database\QueryException) {
@@ -57,10 +58,12 @@ class AuthController extends Controller
                     ];
 
                     return response()->json($error,401);
-                } else {
+                } 
+                else {
                     $error = [
                         
-                        'message' => 'duplicated data',
+                        // 'message' => $e->errorInfo[2],
+                        'message' => "Email already exists",
                         'code' => 401,
 
                     ];

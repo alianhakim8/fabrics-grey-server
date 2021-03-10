@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fabric;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fabric;
+use App\Models\Machine;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
@@ -16,13 +17,13 @@ class FabricController extends Controller
     public function __construct()
     {
         $this->fabric = Fabric::FabricJson();
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function index()
     {
         // try {
-            $data=Fabric::all();
+            $data=Fabric::FabricJson();
             return response()->json($data);
 
             // $result = $this->fabric;
@@ -140,5 +141,22 @@ class FabricController extends Controller
         $data = Fabric::with('machine')->where('id', $id)->first();
 
         return $this->sendResponse($data, 'GET ID Success', 200);
+    }
+
+    public function select2Machine() {
+
+        $machine = Machine::Select2Machine();
+        return $this->sendResponse($machine, 'GET ID Success', 200);
+    }
+
+    public function lastFabric() {
+
+        $fabric = Fabric::GetLastFabric();
+        return $this->sendResponse($fabric, 'GET ID Success', 200);
+    }
+
+    public function fabricDetail($id) {
+        $fabric = Fabric::with('machine')->where('id', $id)->get();
+        return $this->sendResponse($fabric, 'GET ID Success', 200);
     }
 }
